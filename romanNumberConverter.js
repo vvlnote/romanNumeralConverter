@@ -47,7 +47,17 @@ function getRomanSymbol(num, numRomanMap, modulus){
 function convertToRoman(num) {
  //Set up the Number and Roman Symbols map
  if (typeof process.argv[2] !== "undefined"){
-    num = process.argv[2];
+    var temp = process.argv[2];
+    num = parseFloat(temp);
+ }
+ if((num < 1 ) || (num >= 4000)) {
+    console.log("Please input positive integer number between 1 and 3999");
+    return "";
+ }
+ if(Number.isInteger(num) !== true)
+ {
+    console.log("Please input positive integer number between 1 and 3999");
+    return "";
  }
  console.log("input num = " + num);
  var numRomanMap = new Map();
