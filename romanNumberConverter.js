@@ -21,7 +21,7 @@ function getRomanSymbol(num, numRomanMap, modulus){
         }
     }
     highNum = key;
-    console.log("lowNum = " + lowNum + " highNum = "+ highNum);
+    //console.log("lowNum = " + lowNum + " highNum = "+ highNum);
     if(num === highNum){
         roman = numRomanMap.get(num);
     }else {
@@ -30,8 +30,8 @@ function getRomanSymbol(num, numRomanMap, modulus){
         }
         else {
             roman = numRomanMap.get(lowNum);
-            console.log("roman = " + roman);
-            console.log(num%lowNum);
+            //console.log("roman = " + roman);
+            //console.log(num%lowNum);
             var tempNum = lowNum;
             while (num > tempNum){
                 roman = roman+baseRomanSymbol;
@@ -39,13 +39,17 @@ function getRomanSymbol(num, numRomanMap, modulus){
             }
         }
     }
-    console.log(num);
-    console.log(roman);
+    //console.log(num);
+    //console.log(roman);
     return roman;
 }
 
 function convertToRoman(num) {
  //Set up the Number and Roman Symbols map
+ if (typeof process.argv[2] !== "undefined"){
+    num = process.argv[2];
+ }
+ console.log("input num = " + num);
  var numRomanMap = new Map();
  numRomanMap.set(1, "I");
  numRomanMap.set(5, "V");
@@ -66,7 +70,7 @@ function convertToRoman(num) {
      modulus *= 10;
  }
 
- console.log(romanStr);
+ console.log("converted Roman Numeral = " + romanStr);
  
  return romanStr;
 }
