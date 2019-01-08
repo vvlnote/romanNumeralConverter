@@ -1,8 +1,7 @@
-function getRomanSymbol(num, numRomanMap, modulus){
+function getRomanSymbol(num, modulus){
     if(num === 0){
         return "";
     }
-
     var roman = "";
     var lowNum = 0;
     var highNum = 0;
@@ -17,10 +16,14 @@ function getRomanSymbol(num, numRomanMap, modulus){
         key = iterator.next().value;
         if(typeof key === "undefined"){
             //the num is bigger than the biggest key
-            key = num+1; //to break out this while loop
+           break;
         }
     }
-    highNum = key;
+    if(key === "undefined"){
+        highNum = num + 1;
+    } else {
+        highNum = key;
+    }
     //console.log("lowNum = " + lowNum + " highNum = "+ highNum);
     if(num === highNum){
         roman = numRomanMap.get(num);
@@ -30,8 +33,6 @@ function getRomanSymbol(num, numRomanMap, modulus){
         }
         else {
             roman = numRomanMap.get(lowNum);
-            //console.log("roman = " + roman);
-            //console.log(num%lowNum);
             var tempNum = lowNum;
             while (num > tempNum){
                 roman = roman+baseRomanSymbol;
@@ -39,44 +40,17 @@ function getRomanSymbol(num, numRomanMap, modulus){
             }
         }
     }
-    //console.log(num);
-    //console.log(roman);
     return roman;
 }
 
 function convertToRoman(num) {
- //Set up the Number and Roman Symbols map
- if (typeof process.argv[2] !== "undefined"){
-    var temp = process.argv[2];
-    num = parseFloat(temp);
- }
- if((num < 1 ) || (num >= 4000)) {
-    console.log("Please input positive integer number between 1 and 3999");
-    return "";
- }
- if(Number.isInteger(num) !== true)
- {
-    console.log("Please input positive integer number between 1 and 3999");
-    return "";
- }
- console.log("input num = " + num);
- var numRomanMap = new Map();
- numRomanMap.set(1, "I");
- numRomanMap.set(5, "V");
- numRomanMap.set(10, "X");
- numRomanMap.set(50, "L");
- numRomanMap.set(100, "C");
- numRomanMap.set(500, "D");
- numRomanMap.set(1000, "M");
-
- var numBase = 1;
  var modulus = 10;
  var romanStr = "";
  while (num != 0){
-     var reminder = num % modulus;
-     var romanSymbol = getRomanSymbol(reminder, numRomanMap, modulus);
+     var remainder = num % modulus;
+     var romanSymbol = getRomanSymbol(remainder, modulus);
      romanStr = romanSymbol + romanStr;
-     num = num - reminder;
+     num = num - remainder;
      modulus *= 10;
  }
 
@@ -85,4 +59,32 @@ function convertToRoman(num) {
  return romanStr;
 }
 
-convertToRoman(3001);
+var num;
+if (typeof process.argv[2] !== "undefined"){
+var temp = process.argv[2];
+num = parseFloat(temp);
+}
+else {
+    num = 3001;
+}
+if((num < 1 ) || (num >= 4000)) {
+console.log("Please input positive integer number between 1 and 3999");
+return "";
+}
+if(Number.isInteger(num) !== true)
+{
+console.log("Please input positive integer number between 1 and 3999");
+return "";
+}
+console.log("input num = " + num);
+//Set up the Number and Roman Symbols map
+const numRomanMap = new Map([
+    [1, "I"], 
+    [5, "V"], 
+    [10, "X"], 
+    [50, "L"], 
+    [100, "C"], 
+    [500, "D"], 
+    [1000, "M"]]);
+
+convertToRoman(num);
